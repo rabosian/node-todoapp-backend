@@ -4,6 +4,7 @@ const cors = require("cors")
 const bodyParser = require("body-parser");
 const indexRouter = require("./routes/index")
 
+const PORT_NUMBER = 4000
 const app = express();
 app.use(cors())
 app.use(bodyParser.json()); // map request to req.body
@@ -16,6 +17,6 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log("DB connection failed"));
 
-app.listen(4000, () => {
-    console.log("server running on 4000")
+app.listen(PORT_NUMBER, () => {
+    console.log("server running on " + PORT_NUMBER)
 })

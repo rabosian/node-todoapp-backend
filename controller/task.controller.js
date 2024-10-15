@@ -25,20 +25,22 @@ taskController.getTasks = async (req, res) => {
 
 taskController.updateTask = async (req, res) => {
   try {
-    const taskId = req.params.id;
-    const updatedTask = await Task.findByIdAndUpdate(taskId, {
-      isComplete: !isComplete,
-    });
+    const currentTask = await Task.findById(req.params.id);
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      { isComplete: !currentTask.isComplete },
+      { new: true }
+    );
     res.status(200).json({ status: "Success", data: updatedTask });
   } catch (err) {
+    console.log(err);
     res.status(400).json({ status: "Failed", error: err });
   }
 };
 
 taskController.deleteTask = async (req, res) => {
   try {
-    const taskId = req.params.id;
-    const removedTask = await Task.findByIdAndDelete(taskId);
+    const removedTask = await Task.findByIdAndDelete(req.params.id);
     res.status(200).json({ status: "Success", data: removedTask });
   } catch (err) {
     res.status(400).json({ status: "Failed", error: err });
