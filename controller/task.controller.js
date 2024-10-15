@@ -42,8 +42,10 @@ taskController.updateTaskStatus = async (req, res) => {
 taskController.deleteTask = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
-    console.log("task found: ", task)
-    await Comment.deleteMany({ _id: { $in: task.comments } });
+    console.log("task to remove", task, req.params)
+    if (task.comments) {
+      await Comment.deleteMany({ _id: { $in: task.comments } });
+    }
     const removedTask = await Task.findByIdAndDelete(req.params.id);
     res.status(200).json({ status: "Success", data: removedTask });
   } catch (err) {
