@@ -25,10 +25,13 @@ CommentController.createComment = async (req, res) => {
 CommentController.getAllComments = async (req, res) => {
   try {
     const { taskId } = req.params;
-    const commentList = await Task.findById(taskId).populate('comments').select("-__v");;
+    const commentList = await Task.findById(taskId).populate('comments').select("-__v");
+    if (!commentList) {
+      throw new Error("Tasks NOT found")
+    }
     res.status(200).json({ status: "Success", data: commentList });
   } catch (err) {
-    res.status(400).json({ status: "Failed", error: err });
+    res.status(400).json({ status: "Failed", error: err.message });
   }
 };
 
