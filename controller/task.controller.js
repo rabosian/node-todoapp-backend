@@ -1,4 +1,4 @@
-const Task = require("../model/task");
+const Task = require("../models/task");
 
 const taskController = {};
 
@@ -14,7 +14,7 @@ taskController.createTask = async (req, res) => {
   }
 };
 
-taskController.getTasks = async (req, res) => {
+taskController.getAllTasks = async (req, res) => {
   try {
     const taskList = await Task.find({}).select("-__v");
     res.status(200).json({ status: "Success", data: taskList });
@@ -23,7 +23,7 @@ taskController.getTasks = async (req, res) => {
   }
 };
 
-taskController.updateTask = async (req, res) => {
+taskController.updateTaskStatus = async (req, res) => {
   try {
     const currentTask = await Task.findById(req.params.id);
     const updatedTask = await Task.findByIdAndUpdate(
