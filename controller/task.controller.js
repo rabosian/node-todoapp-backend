@@ -1,4 +1,5 @@
 const Task = require("../models/task");
+const Comment = require("../models/comment")
 
 const taskController = {};
 
@@ -40,9 +41,13 @@ taskController.updateTaskStatus = async (req, res) => {
 
 taskController.deleteTask = async (req, res) => {
   try {
+    const task = await Task.findById(req.params.id);
+    console.log("task found: ", task)
+    await Comment.deleteMany({ _id: { $in: task.comments } });
     const removedTask = await Task.findByIdAndDelete(req.params.id);
     res.status(200).json({ status: "Success", data: removedTask });
   } catch (err) {
+    console.log(err)
     res.status(400).json({ status: "Failed", error: err });
   }
 };
