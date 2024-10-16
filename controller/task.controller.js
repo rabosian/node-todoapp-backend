@@ -38,11 +38,23 @@ taskController.updateTaskStatus = async (req, res) => {
     res.status(400).json({ status: "Failed", error: err });
   }
 };
+taskController.updateTaskName = async (req, res) => {
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id,
+      { taskName: req.body.taskName },
+      { new: true }
+    );
+    res.status(200).json({ status: "Success", data: updatedTask });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ status: "Failed", error: err });
+  }
+};
 
 taskController.deleteTask = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
-    console.log("task to remove", task, req.params)
     if (task.comments) {
       await Comment.deleteMany({ _id: { $in: task.comments } });
     }

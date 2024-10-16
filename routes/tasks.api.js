@@ -5,7 +5,8 @@ const router = express.Router()
 
 router.post('/', taskController.createTask)
 router.get('/', taskController.getAllTasks)
-router.put('/:id', taskController.updateTaskStatus)
+router.put('/:id/status', taskController.updateTaskStatus)
+router.put('/:id/name', taskController.updateTaskName)
 router.delete('/:id', taskController.deleteTask)
 
 // comments controller
