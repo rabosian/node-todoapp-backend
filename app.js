@@ -5,7 +5,6 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const indexRouter = require("./routes/index");
 
-const PORT_NUMBER = 4000;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json()); // map request to req.body
@@ -19,6 +18,10 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch((err) => console.log("DB connection failed: ", err));
 
-app.listen(PORT_NUMBER, () => {
-  console.log("server running on " + PORT_NUMBER);
+app.listen(process.env.PORT || 3000, (err) => {
+  if (err) {
+    console.log("server error: ", err)
+    return;
+  }
+  console.log("server running on " + process.env.PORT);
 });
